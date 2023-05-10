@@ -22,9 +22,6 @@
     ![](image/DECISIONS/1683751052527.png)
   - Notify again the end of the pipeline
     ![](image/DECISIONS/1683751219229.png)
-  - I would have also included a test phase with the tests in the folder `tests` but they seemed to be non functional. In any case it would have looked like this:![](image/DECISIONS/1683751601880.png)
 - The next step is to merge into the repo with `git add *` `git commit -um "add github actions pipeline"` and `git push origin/master`
 - In order to create the Action using the embedded IDE of GitHub makes the job easier and gives the option to use the integrated functions from the marketplace:
   ![](image/DECISIONS/1683752760901.png)
-- To be able to run the pipelines it is also required a server to run it, and currently I don't have a self-hosted server available for it:
-  ![](image/DECISIONS/1683753150873.png)
