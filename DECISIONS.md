@@ -9,7 +9,7 @@
 - Checked that the app was responsive and functional:
   ![](image/DECISIONS/1683715472927.png)
 - Decided to use GitHub Actions for simplicity since both the original repo and my fork are both in GitHub and the integration will be faster and easier
-- Created a `build-and-deploy.yml` file to define the GitHub actions pipeline with the following steps:
+- Created a `build-and-deploy.yml` GitHub Actions file to define the actions pipeline with the following steps:
   - First we configure the environment
     ![](image/DECISIONS/1683726495624.png)
   - We choose Discord as the notification channel but any other communication tool would work too (Slack, Teams...). The hyperlink in the message redirects to the GitHub Actions build to see all the step reports and console outputs
@@ -24,3 +24,4 @@
     ![](image/DECISIONS/1683751219229.png)
   - I would have also included a test phase with the tests in the folder `tests` but they seemed to be non functional. In any case it would have looked like this:![](image/DECISIONS/1683751601880.png)
 - The next step is to merge into the repo with `git add *` `git commit -um "add github actions pipeline"` and `git push origin/master`
+- Once the repo is merged, create the GitHub actions thru the GUI menu:
