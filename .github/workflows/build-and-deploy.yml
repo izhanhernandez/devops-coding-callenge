@@ -1,0 +1,100 @@
+name: Build and Deploy
+
+on:
+  push:
+    branches:
+      - main
+      - test
+      - staging
+
+env:
+  # ASCII color codes
+  ASCII_GREEN_CODE: 58892
+  ASCII_RED_CODE: 16711680
+  ASCII_YELLOW_CODE: 16776960
+  # GITHUB CONSTANTS
+  GITHUB_ACTIONS_BUILD_URL: $GITHUB_ACTIONS_BUILD_URL
+  REPO_NAME: ${{ github.event.repository.name }}
+  BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
+  COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
+  # PROJECT VARIABLES
+  DOCKER_USERNAME: $DOCKER_USERNAME
+  DOCKER_PASSWORD: $DOCKER_PASSWORD
+  PORTAINER_WEBHOOK: $PORTAINER_WEBHOOK
+  DISCORD_CHANNEL_WEBHOOK: $DISCORD_CHANNEL_WEBHOOK
+  DISCORD_THUMBNAIL: $https://media.licdn.com/dms/image/C560BAQEU_-AM2i_9yw/company-logo_200_200/0/1581153359024?e=2147483647&v=beta&t=f3D1M0VjOn3WFvrV61mGQ1zsRdUtARccqQmi6pMyK54
+
+jobs:
+  # PIPELINE START
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Notify the start of the pipeline to a webhook (Discord in this case)
+      - name: Send Pipeline start notification
+        run: |
+          # Generate a Discord embed message
+          TIMESTAMP=$(date +"%Y-%m-%dT%H:%M:%S.000Z")
+          embedMessage="""
+          {\"embeds\": 
+              [{
+                  \"color\": $ASCII_YELLOW_CODE,
+                  \"timestamp\": \"$TIMESTAMP\",
+                  \"author\": {\"name\":\"GITHUB_ACTIONS\"},
+                  \"thumbnail\": {\"url\": \"$DISCORD_THUMBNAIL\"},
+                  \"url\": \"$GITHUB_ACTIONS_BUILDS_URL?buildId=$BUILD_ID&view=logs\",
+                  \"title\": \"**PIPELINE [Nº $BUILD_ID] STARTED FOR BRANCH [$BRANCH_NAME] OF REPO [$REPO_NAME]\n\nCommit Message: [$COMMIT_MESSAGE]**\"
+              }]
+          }
+          """
+          # Send the message
+          curl --location "$DISCORD_CHANNEL_WEBHOOK" --header 'Content-Type: application/json' --data "$embedMessage"
+
+      # Checkout the code from the GitHub repo
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      # Build Tag and Push the Django Image
+      - name: Build Docker Django image
+        uses: docker/build-push-action@v2
+        with:
+          context: ./compose/local/django
+          push: true
+          tags: $REPO_NAME_$BRANCH_NAME_DJANGO:latest
+        env:
+          DOCKER_USERNAME: $DOCKER_USERNAME
+          DOCKER_PASSWORD: $DOCKER_PASSWORD
+
+      # Build Tag and Push the Docs Image
+      - name: Build Docker Django image
+        uses: docker/build-push-action@v2
+        with:
+          context: ./compose/local/docs
+          push: true
+          tags: $REPO_NAME_$BRANCH_NAME_DOCS:latest
+        env:
+          DOCKER_USERNAME: $DOCKER_USERNAME
+          DOCKER_PASSWORD: $DOCKER_PASSWORD
+
+      # Notify again the end of the pipeline
+      - name: Send Pipeline start notification
+        run: |
+          # Generate a Discord embed message
+          TIMESTAMP=$(date +"%Y-%m-%dT%H:%M:%S.000Z")
+          embedMessage="""
+          {\"embeds\": 
+              [{
+                  \"color\": $ASCII_GREEN_CODE,
+                  \"timestamp\": \"$TIMESTAMP\",
+                  \"author\": {\"name\":\"GITHUB ACTIONS\"},
+                  \"thumbnail\": {\"url\": \"$DISCORD_THUMBNAIL\"},
+                  \"url\": \"$GITHUB_ACTIONS_BUILD_URL?buildId=$BUILD_ID&view=logs\",
+                  \"title\": \"**PIPELINE [Nº $BUILD_ID] SUCCEEDED FOR BRANCH [$BRANCH_NAME] OF REPO [$REPO_NAME]\n\nCommit Message: [$COMMIT_MESSAGE]**\"
+              }]
+          }
+          """
+          # Send the message
+          curl --location "$DISCORD_CHANNEL_WEBHOOK" --header 'Content-Type: application/json' --data "$embedMessage"
+
+  # PIPELINE END
+
