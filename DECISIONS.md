@@ -25,3 +25,11 @@
 - The next step is to merge into the repo with `git add *` `git commit -um "add github actions pipeline"` and `git push origin/master`
 - In order to create the Action using the embedded IDE of GitHub makes the job easier and gives the option to use the integrated functions from the marketplace:
   ![](image/DECISIONS/1683752760901.png)
+
+## Deployment/Suggestion:
+
+- In order to deploy there are multiple options, specially since we are using a Docker Image registry to upload images. Once the images are uploaded to an accessible registry, deploying, uploading, rollbacking those images is quite easy to do. Some examples:
+  - An AWS EC2 server where we have the same `docker-compose.yml` file present in the root of this repo, we can restart the compose stack re-pulling the newest images
+  - We can also run the app in a ECS (Elastic Container Service) deployment, using either the same EC2 virtual machines or even auto-managed Fargate serverless instances
+  - We could go one step forward and use a Kubernetes deployment for our application, either in a self hosted server (or EC2...) or using a managed solution like EKS (Elastic Kubernetes Service) in AWS, OpenShift, GKS (Google Cloud solution)
+  - We could also bet for simplicity and use Docker-Compose stack deployment solutions like Portainer
