@@ -1,7 +1,9 @@
+import sys
+import os
 from pathlib import Path
 
 import pytest
-
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from merge_production_dotenvs_in_dotenv import merge
 
 

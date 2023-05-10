@@ -20,29 +20,29 @@ Feel free to include integrations with any third party software that you think i
 - Basic understanding of Docker
 
 ### Instructions
-1. Create a private fork of this repo
-    
-    The first step is to fork the provided Django repository. You can find the repository at:
-    
-    ```
-    <https://github.com/mrmilu/devops-coding-callenge>
-    
-    ```
-    
-    Click the "Fork" button in the top right corner and choose your personal namespace to create a fork.
-    
-2. Design the GitLab CI/CD pipelines or Github Actions Workflow
-    
-    Create a new file called `.gitlab-ci.yml` in the root of the Django project. This file will contain the GitLab CI configuration (feel free to use github actions too)
-    
-    Design the CI/CD pipeline according to your preferences and best practices. 
-    
-    We love containers, an image should be built.
-    
-    You may also include any other stages, jobs, or scripts that you consider important.
-    
-3. Commit and push your changes
 
+1. Create a private fork of this repo
+
+   The first step is to fork the provided Django repository. You can find the repository at:
+
+   ```
+   <https://github.com/mrmilu/devops-coding-callenge>
+
+   ```
+
+   Click the "Fork" button in the top right corner and choose your personal namespace to create a fork.
+
+2. Design the GitLab CI/CD pipelines or Github Actions Workflow
+
+   Create a new file called `.gitlab-ci.yml` in the root of the Django project. This file will contain the GitLab CI configuration (feel free to use github actions too)
+
+   Design the CI/CD pipeline according to your preferences and best practices.
+
+   We love containers, an image should be built.
+
+   You may also include any other stages, jobs, or scripts that you consider important.
+
+3. Commit and push your changes
 
 ### Optional: Deployment Suggestions
 
@@ -55,12 +55,11 @@ Feel free to describe any specific services, configurations, or best practices y
 - A forked Django repository with a `.gitlab-ci.yml` file containing your designed GitLab CI/CD pipeline or github-actions workflow
 - Access granted to `iker.blanco@mrmilu.com` to the repo.
 - A markdown file named `DECISIONS.md` with an outline of your decisions so we can know why you did (or didn’t) do what you did :)
-- A markdown file named  `TODO.md` with an outline of the things that you would implement, fix, upgrade if you had more time.
+- A markdown file named `TODO.md` with an outline of the things that you would implement, fix, upgrade if you had more time.
 - (Optional) A brief description of your preferred deployment strategy for the Django application
 
 ### Questions
 
 If you have any questions, feel free to email us at devops+interviews@mrmilu.com
-
 
 Good luck! We're looking forward to reviewing your work.
